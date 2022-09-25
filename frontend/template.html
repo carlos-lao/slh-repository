@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Todo: import selected fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href = "style.css">
@@ -25,36 +26,40 @@
 
 <body>
 
-<!-- Navigation bar -->
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Substances and Lived History Repository</a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Manage Roles</a>
-        </li>
-        <li class="nav-item">
-          <button type="button" class="nav-link" href="#">Upload</button>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Log Out</a>
-        </li>
-      </ul>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark flex-column">
+    <div class="container-fluid">
+    <div class="d-flex">
+        <a href="#" class="navbar-brand">Substances and Lived History Repository</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
-  </div>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Manage Roles</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Upload</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link">Logout</a>
+            </li>
+        </ul>
+    </div>
+    </div>
 </nav>
 
 <!-- Content -->
 <div>
+    <h1>Dashboard</h1>
     <p>Hello</p>
 
 </div>
