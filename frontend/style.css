@@ -1,8 +1,27 @@
-h1{
+body{
     font-family: 'Inter', sans-serif;
 }
 
-p{
-    font-family: 'Inter', sans-serif;
+.lock-icon{
+    color: #840000;
+}
 
+.media-icon{
+    color: #424B54;
+}
+
+.tags{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 3px 17px;
+    gap: 5px;
+    flex-wrap:wrap;
+}
+
+/*Make all Tags SPAN*/
+.tags > span{
+    border-radius: 20px;
+    border: 2px solid #424B54;
+    padding:2px 10px;
 }
