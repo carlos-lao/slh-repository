@@ -19,7 +19,7 @@ body{
     flex-wrap:wrap;
 }
 
-/*Make all Tags SPAN*/
+/*Make all Tags for submissions SPAN*/
 .tags > span{
     border-radius: 20px;
     border: 2px solid #424B54;
