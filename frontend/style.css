@@ -25,3 +25,56 @@ body{
     border: 2px solid #424B54;
     padding:2px 10px;
 }
+
+.signinBox{
+    margin-top: 15%;
+}
+
+.signinBox .form-group{
+    margin: 1%;
+}
+
+.form-control, label{
+    display: block;
+}
+
+.submissionDisplay{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    padding-bottom: 3%;
+}
+
+.submissionDisplay audio{
+    display: block;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.subTitle{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2%;
+}
+
+.subTags{
+    display: flex;
+    justify-content: space-between;
+}
+
+.editSubButt{
+    border-radius: 10px;
+    background-color: #acb0b4;
+    padding: 1% 2%;
+    height: 100%;
+    display: flex; 
+    justify-content: center;
+    font-weight: bold;
+}
+
+.subDesc{
+    margin-bottom: 5%;
+    margin-top: 2%;
+
+}
