@@ -78,3 +78,8 @@ body{
     margin-top: 2%;
 
 }
+
+.submission{
+    border: 1px black solid;
+    padding: 10px 0px;
+}
