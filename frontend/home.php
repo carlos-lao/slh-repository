@@ -1,3 +1,28 @@
+<?php 
+require 'config.php';
+
+/*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+    header("Location: signin.php");
+}*/
+
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if( $mysqli->connect_errno) {
+    echo $mysqli->connect_error;
+    exit();
+}
+
+$sql = "SELECT * FROM post;";
+$creators = $mysqli->query($sql);
+if (!$creators) {
+    echo $mysqli->error;
+    exit();
+}
+
+$mysqli->close();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,7 +91,7 @@
 <div class="container">
     <div id="search" class="heading">
         <h2>Search Repository</h2>
-        <form>
+        <form action="search.php" method="GET">
             <div class="row">
             <div class="mb-3 col">
                 <label for="title" class="form-label">Title</label>
