@@ -1,4 +1,5 @@
 <?php 
+
 require 'config.php';
 
 /*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
@@ -12,9 +13,13 @@ if( $mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT * FROM post;";
-$creators = $mysqli->query($sql);
-if (!$creators) {
+$sql = "SELECT * FROM Post
+JOIN User 
+	on User.idUser = Post.User_idUser";
+
+
+$posts = $mysqli->query($sql);
+if (!$posts) {
     echo $mysqli->error;
     exit();
 }
@@ -50,6 +55,11 @@ $mysqli->close();
         #repository-header{
             font-size:30px;
 
+        }
+
+        .submission-link{
+            text-decoration:none;
+            color:black;
         }
     </style>
 
@@ -91,6 +101,7 @@ $mysqli->close();
 <div class="container">
     <div id="search" class="heading">
         <h2>Search Repository</h2>
+        <!-- fix this --> 
         <form action="search.php" method="GET">
             <div class="row">
             <div class="mb-3 col">
@@ -151,6 +162,8 @@ $mysqli->close();
         </form>
     </div>
 <hr>
+
+<!-- dashboard complete --> 
     <div class="container">
         <div class="row" id="repository-header">
             <div class="col-1 lock-icon">
@@ -173,7 +186,81 @@ $mysqli->close();
             </div>
         </div>
 
-        <div class="row submission" id="submission-id">
+
+        <!-- PHP STARTS HERE -->
+        <?php while($row = $posts->fetch_assoc()):?>
+        
+        <a class="submission-link" href="viewSubmission.php?idPost=<?php echo $row['idPost'];?> ">
+
+        <div class="row submission" id="<?php echo $row['idPost'];?>">
+            <div class="col-1">
+                <?php 
+                if($row['locked'] == 0) {
+                    echo '<i class="fa-solid fa-lock"></i>';
+                } 
+                else {
+                    echo '<i class="fa-solid fa-unlock"></i>';
+
+                };?>
+            </div>
+
+            <div class="col">
+                <?php echo $row['dateCreated'];?>
+            </div>
+            
+            <div class="col">
+            <?php echo $row['title'];?>
+            </div>
+            
+            <div class="col">
+            <?php echo $row['email'];?>
+            </div>
+            
+            <div class="col">
+            <?php 
+            $mediaTypes = $row['mediaType'];
+            $length = strlen($mediaTypes);
+
+            for($i=0; $i<$length; $i++) {
+                if($mediaTypes[$i]=='0'){
+                    echo '<i class="media-icon fa-solid fa-file-word"></i>';
+                }
+                if($mediaTypes[$i]=='1'){
+                    echo '<i class="media-icon fa-solid fa-file-image"></i>';
+                }
+                if($mediaTypes[$i]=='2'){
+                    echo '<i class="media-icon fa-solid fa-file-video"></i>';
+                }
+                if($mediaTypes[$i]=='3'){
+                    echo '<i class="media-icon fa-solid fa-file-audio"></i>';
+                }
+                if($mediaTypes[$i]=='4'){
+                    echo '<i class="media-icon fa-solid fa-file-powerpoint"></i>';
+                }
+                if($mediaTypes[$i]=='5'){
+                    echo '<i class="media-icon fa-solid fa-file-excel"></i>';
+                }
+
+            }
+            ?> 
+            </div>
+            <div class="col-4 tags">
+                <?php
+                    $json = json_decode($row['tags'], true);
+                    //var_dump($json['Tags']);
+                    for($i = 0; $i < count($json['Tags']); $i++){
+                        echo '<span>';
+                        echo $json['Tags'][$i];
+                        echo'</span>';
+                    }
+
+                ?>
+            </div>
+        </div>
+        </a>
+        <?php endwhile;?>
+        <!-- 
+            <div class="row submission" id="submission-id">
             <div class="col-1">
                 <i class="fa-solid fa-lock"></i>
             </div>
@@ -198,6 +285,7 @@ $mysqli->close();
                 <span>Testing</span>
             </div>
         </div>
+        -->
 
     </div>
 </div>
