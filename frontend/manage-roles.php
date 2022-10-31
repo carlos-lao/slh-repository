@@ -1,3 +1,31 @@
+<?php 
+
+require 'config.php';
+
+/*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+    header("Location: signin.php");
+}*/
+
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if( $mysqli->connect_errno) {
+    echo $mysqli->connect_error;
+    exit();
+}
+
+$sql = "SELECT * FROM user WHERE idUser = 1 OR idUser = 2";
+
+
+$users = $mysqli->query($sql);
+if (!$users) {
+    echo $mysqli->error;
+    exit();
+}
+
+$mysqli->close();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +59,7 @@
 <nav class="navbar navbar-expand-md navbar-dark flex-column" style="background-color:#840000;">
     <div class="container-fluid">
         <div class="d-flex">
-            <a href="dashboard.html" class="navbar-brand">Substances and Lived History Repository</a>
+            <a href="dashboard.php" class="navbar-brand">Substances and Lived History Repository</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,13 +68,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="manage-roles.html" class="nav-link">Manage Roles</a>
+                    <a href="manage-roles.php" class="nav-link">Manage Roles</a>
                 </li>
                 <li class="nav-item">
-                    <a href="upload.html" class="nav-link active">Upload</a>
+                    <a href="upload.php" class="nav-link active">Upload</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -83,17 +111,28 @@
     <div id="user-perms">
         <!-- list of users -->
         <h1>Advanced User Permissions</h1>
+        <?php while($row = $user->fetch_assoc()):?>
         <div class="row submission">
             <div class="col-3">
-                ttrojan@usc.edu
+            <?php echo $row['email'];?>
             </div>
             <div class="col-3">
-                Administrator
+            <?php 
+                if($row['accessLevel'] == 1) {
+                    echo '';
+                } 
+                else if($row['accessLevel'] == 2) {
+                    echo '';
+
+                };?>
             </div>
             <div class="col-3">
-                X
+                <a href="">
+                    X 
+                </a>
             </div>
         </div>
+        <?php endwhile;?>
     </div>
 </div>
 
