@@ -70,7 +70,7 @@ $mysqli->close();
 <nav class="navbar navbar-expand-md navbar-dark flex-column" style="background-color:#840000;">
     <div class="container-fluid">
         <div class="d-flex">
-            <a href="dashboard.html" class="navbar-brand">Substances and Lived History Repository</a>
+            <a href="dashboard.php" class="navbar-brand">Substances and Lived History Repository</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -122,7 +122,7 @@ $mysqli->close();
                     <label class="form-label">File Types</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="file-word" value="word">
-                        <label class="form-check-label" for="file-word">Word <i class="media-icon fa-solid fa-file-word"></i></label>
+                        <label class="form-check-label" for="file-word">PDF <i class="media-icon fa-solid fa-file-word"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="file-image" value="image">
@@ -136,16 +136,6 @@ $mysqli->close();
                         <input class="form-check-input" type="checkbox" id="file-audio" value="audio">
                         <label class="form-check-label" for="file-audio">Audio <i class="media-icon fa-solid fa-file-audio"></i></label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-ppt" value="ppt">
-                        <label class="form-check-label" for="file-ppt">Powerpoint <i class="media-icon fa-solid fa-file-powerpoint"></i></label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-excel" value="excel">
-                        <label class="form-check-label" for="file-excel">Excel <i class="media-icon fa-solid fa-file-excel"></i></label>
-                    </div>
-
                 </div>
 
                 <div class="mb-3 col input-group">
@@ -233,12 +223,6 @@ $mysqli->close();
                 }
                 if($mediaTypes[$i]=='3'){
                     echo '<i class="media-icon fa-solid fa-file-audio"></i>';
-                }
-                if($mediaTypes[$i]=='4'){
-                    echo '<i class="media-icon fa-solid fa-file-powerpoint"></i>';
-                }
-                if($mediaTypes[$i]=='5'){
-                    echo '<i class="media-icon fa-solid fa-file-excel"></i>';
                 }
 
             }

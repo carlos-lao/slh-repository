@@ -12,7 +12,7 @@ if( $mysqli->connect_errno) {
     echo $mysqli->connect_error;
     exit();
 }
-
+/*
 $sql = "SELECT * FROM Post
 JOIN User 
 	on User.idUser = Post.User_idUser";
@@ -24,7 +24,7 @@ if (!$posts) {
     exit();
 }
 
-$mysqli->close();
+$mysqli->close();*/
 
 ?>
 
@@ -71,7 +71,7 @@ $mysqli->close();
 <nav class="navbar navbar-expand-md navbar-dark flex-column" style="background-color:#840000;">
     <div class="container-fluid">
         <div class="d-flex">
-            <a href="dashboard.html" class="navbar-brand">Substances and Lived History Repository</a>
+            <a href="dashboard.php" class="navbar-brand">Substances and Lived History Repository</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -80,13 +80,13 @@ $mysqli->close();
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="manage-roles.html" class="nav-link">Manage Roles</a>
+                    <a href="manage-roles.php" class="nav-link">Manage Roles</a>
                 </li>
                 <li class="nav-item">
-                    <a href="upload.html" class="nav-link active">Upload</a>
+                    <a href="upload.php" class="nav-link active">Upload</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
