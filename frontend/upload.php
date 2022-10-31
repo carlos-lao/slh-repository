@@ -31,6 +31,16 @@
         .over{
             background-color: azure;
         }
+        #tagEntryDisplay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0.5px solid black;
+            border-radius: 5px;
+            padding-left: 5px;
+        }
     </style>
 
 
@@ -122,9 +132,9 @@
             </div>
             <div class="form-group col-sm mb-3">
                 <label for="tags">Content Tags</label>
-                <textarea name="tags" id="tags" class="form-control border-secondary" rows="3"></textarea>
-                <div>
-
+                <div style="position: relative;" onclick="focusEntry();">
+                    <div id="tagEntryDisplay" class="tags"><p id="incompleteTag"></p></div>
+                    <textarea name="tags" id="tagEntry" class="form-control border-secondary" rows="3" onkeyup="check(this);"  style="opacity: 0;"></textarea>
                 </div>
             </div>
         </div>
@@ -179,9 +189,45 @@
 </script>
 
 <script type="text/javascript">
-    let element = document.getElementById('upload')
+    var input = document.getElementById('tagEntry');
 
-    
+    input.onkeydown = () => {
+        let key = event.keyCode || event.charCode;
+        let tagDiv = document.getElementById("tagEntryDisplay");
+
+        if( key === 8 && input.value.length === 0 && tagDiv.children.length > 1 ) {
+            tagDiv.children[tagDiv.children.length - 2].remove();
+        }
+    };
+
+    document.getElementById('tagEntry').addEventListener("change", (e) => {
+        if (e.target.value.includes(',')) {
+            // create span for new tag
+            let newSpan = document.createElement('span');
+            newSpan.classList.add('tag');
+            newSpan.textContent = e.target.value.slice(0, e.target.value.length-1);
+            
+            // add it to the div
+            let tagDiv = document.getElementById("tagEntryDisplay");
+            let incompleteTag = document.getElementById("incompleteTag");
+            incompleteTag.textContent = "";
+            tagDiv.insertBefore(newSpan, incompleteTag);
+
+            // clear the textarea
+            e.target.value = "";
+        } else {
+            document.getElementById("incompleteTag").textContent = e.target.value;
+        }
+    });
+
+    function focusEntry() {
+        document.getElementById("tagEntry").focus();
+    }
+
+    function check(element) {
+        let event = new Event('change');
+        element.dispatchEvent(event);
+    };
 </script>
 
 <!-- Bootstrap -->

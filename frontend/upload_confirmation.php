@@ -2,8 +2,6 @@
 
 require 'config.php';
 
-var_dump($_POST);
-
 function randomNumber($length) {
     $result = '';
 
@@ -49,7 +47,7 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
     }
 
 	if ( isset($_POST['tags']) && !empty($_POST['tags']) ) {
-		$tags = ;
+		$tags = null;
 	} else {
 		$tags = null;
 	}
