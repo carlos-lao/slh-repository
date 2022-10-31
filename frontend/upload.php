@@ -1,3 +1,34 @@
+<?php 
+
+require 'config.php';
+
+/*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+    header("Location: signin.php");
+}*/
+
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if( $mysqli->connect_errno) {
+    echo $mysqli->connect_error;
+    exit();
+}
+
+$sql = "SELECT * FROM Post
+JOIN User 
+	on User.idUser = Post.User_idUser";
+
+
+$posts = $mysqli->query($sql);
+if (!$posts) {
+    echo $mysqli->error;
+    exit();
+}
+
+$mysqli->close();
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>

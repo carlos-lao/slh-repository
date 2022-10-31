@@ -79,13 +79,13 @@ $mysqli->close();
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="manage-roles.html" class="nav-link">Manage Roles</a>
+                    <a href="manage-roles.php" class="nav-link">Manage Roles</a>
                 </li>
                 <li class="nav-item">
-                    <a href="upload.html" class="nav-link active">Upload</a>
+                    <a href="upload.php" class="nav-link active">Upload</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
