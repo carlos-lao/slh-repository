@@ -83,13 +83,13 @@ $mysqli->close();
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a href="dashboard.php" class="nav-link">Dashboard</a>
+                    <a href="dashboard.php" class="nav-link active">Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a href="manage-roles.php" class="nav-link">Manage Roles</a>
                 </li>
                 <li class="nav-item">
-                    <a href="upload.php" class="nav-link active">Upload</a>
+                    <a href="upload.php" class="nav-link">Upload</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -234,13 +234,15 @@ $mysqli->close();
             </div>
             <div class="col-4 tags">
                 <?php
+                if ( isset($row['tags']) ) {
                     $json = json_decode($row['tags'], true);
                     //var_dump($json['Tags']);
-                    for($i = 0; $i < count($json['Tags']); $i++){
+                    for($i = 0; $i < count($json['tags']); $i++){
                         echo '<span>';
-                        echo $json['Tags'][$i];
+                        echo $json['tags'][$i];
                         echo'</span>';
                     }
+                }
 
                 ?>
             </div>

@@ -42,8 +42,7 @@ CREATE TABLE IF NOT EXISTS `slh-repository`.`Post` (
   `lastEdited` DATETIME NULL,
   `mediaType` VARCHAR(4) NULL,
   `tags` JSON NULL,
-  `description` LONGTEXT NULL,
-  `content` JSON NULL,
+  `description` LONGTEXT NULL
   PRIMARY KEY (`idPost`),
   INDEX `fk_Post_User_idx` (`User_idUser` ASC),
   CONSTRAINT `fk_Post_User`

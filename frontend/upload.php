@@ -1,34 +1,3 @@
-<?php 
-
-require 'config.php';
-
-/*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
-    header("Location: signin.php");
-}*/
-
-$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-if( $mysqli->connect_errno) {
-    echo $mysqli->connect_error;
-    exit();
-}
-/*
-$sql = "SELECT * FROM Post
-JOIN User 
-	on User.idUser = Post.User_idUser";
-
-
-$posts = $mysqli->query($sql);
-if (!$posts) {
-    echo $mysqli->error;
-    exit();
-}
-
-$mysqli->close();*/
-
-?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,41 +69,42 @@ $mysqli->close();*/
 
 <!-- Content -->
 <div class="container">
+    <h2 class="mt-4 mb-3">Upload Post</h2>
     <div 
-        class="mt-5 mb-3 p-5" id="upload"
+        class="mb-3 p-5" id="upload"
         ondrop="dropHandler(event);"
         ondragover="dragOverHandler(event);"
         ondragleave="dragLeaveHandler(event);"
     >
-        <p>Upload</p>
+        <p>Drag Files Here</p>
     </div>
-    <form>
+    <form action="upload_confirmation.php" method="POST">
         <div class="form-group mb-3">
-            <input class="form-control border-secondary" placeholder="Title">
+            <input name="title" class="form-control border-secondary" placeholder="Title">
         </div>
         <div class="form-group my-3">
-            <textarea class="form-control border-secondary" rows="5" placeholder="Description"></textarea>
+            <textarea name="description" class="form-control border-secondary" rows="5" placeholder="Description"></textarea>
         </div>
         <div class="row mb-3">
             <div class="form-group col-sm">
                 <label>Media Tags</label>
                 <div class="border border-secondary rounded p-2">
                 <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="pdfCheckbox" value="pdf">
+                        <input name="pdf" class="form-check-input" type="checkbox" id="pdfCheckbox" value="0">
                         <label class="form-check-label" for="pdfCheckbox">
                             PDF
                             <i class="media-icon fa-solid fa-file-pdf"></i>
                         </label>
                     </div>    
                 <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="imageCheckbox" value="image">
+                        <input name="image" class="form-check-input" type="checkbox" id="imageCheckbox" value="1">
                         <label class="form-check-label" for="imageCheckbox">
                             Image
                             <i class="media-icon fa-solid fa-file-image"></i>
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="videoCheckbox" value="video">
+                        <input name="video" class="form-check-input" type="checkbox" id="videoCheckbox" value="2">
                         <label class="form-check-label" for="videoCheckbox">
                             Video
                             <i class="media-icon fa-solid fa-file-video"></i>
@@ -142,7 +112,7 @@ $mysqli->close();*/
                     </div>
                     
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="audioCheckbox" value="audio">
+                        <input name="audio" class="form-check-input" type="checkbox" id="audioCheckbox" value="3">
                         <label class="form-check-label" for="audioCheckbox">
                             Audio
                             <i class="media-icon fa-solid fa-file-audio"></i>
@@ -152,7 +122,10 @@ $mysqli->close();*/
             </div>
             <div class="form-group col-sm mb-3">
                 <label for="tags">Content Tags</label>
-                <textarea id="tags" class="form-control border-secondary" rows="3"></textarea>
+                <textarea name="tags" id="tags" class="form-control border-secondary" rows="3"></textarea>
+                <div>
+
+                </div>
             </div>
         </div>
         <div class="d-flex flex-row-reverse">
@@ -205,7 +178,12 @@ $mysqli->close();*/
     }
 </script>
 
-        
+<script type="text/javascript">
+    let element = document.getElementById('upload')
+
+    
+</script>
+
 <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
