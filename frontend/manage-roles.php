@@ -16,8 +16,8 @@ if( $mysqli->connect_errno) {
 $sql = "SELECT * FROM user WHERE idUser = 1 OR idUser = 2";
 
 
-$users = $mysqli->query($sql);
-if (!$users) {
+$user = $mysqli->query($sql);
+if (!$user) {
     echo $mysqli->error;
     exit();
 }
@@ -98,8 +98,8 @@ $mysqli->close();
             <div class="col-3">
                 <select class="form-select" aria-label="Default select example">
                     <option selected>--Select Permissions--</option>
-                    <option value="mod">Moderator</option>
-                    <option value="admin">Administrator</option>
+                    <option value="1">Moderator</option>
+                    <option value="2">Administrator</option>
                 </select>
             </div>
             <div class="col-3">
@@ -112,17 +112,21 @@ $mysqli->close();
         <!-- list of users -->
         <h1>Advanced User Permissions</h1>
         <?php while($row = $user->fetch_assoc()):?>
-        <div class="row submission">
+        
+        <div class="row submission" id="user-<?php echo $row['idUser'];?>">
+        <div class="col-3">
+            <?php echo $row['name'];?>
+            </div>
             <div class="col-3">
             <?php echo $row['email'];?>
             </div>
             <div class="col-3">
             <?php 
                 if($row['accessLevel'] == 1) {
-                    echo '';
+                    echo 'Moderator';
                 } 
                 else if($row['accessLevel'] == 2) {
-                    echo '';
+                    echo 'Administrator';
 
                 };?>
             </div>
