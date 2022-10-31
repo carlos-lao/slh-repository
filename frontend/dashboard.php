@@ -61,6 +61,10 @@ $mysqli->close();
             text-decoration:none;
             color:black;
         }
+
+        .pad{
+            padding: 0px 5px;
+        }
     </style>
 
 
@@ -121,8 +125,8 @@ $mysqli->close();
                 <div class="col">
                     <label class="form-label">File Types</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-word" value="word">
-                        <label class="form-check-label" for="file-word">PDF <i class="media-icon fa-solid fa-file-word"></i></label>
+                        <input class="form-check-input" type="checkbox" id="file-pdf" value="pdf">
+                        <label class="form-check-label" for="file-pdf">PDF <i class="media-icon fa-solid fa-file-pdf"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="file-image" value="image">
@@ -213,16 +217,16 @@ $mysqli->close();
 
             for($i=0; $i<$length; $i++) {
                 if($mediaTypes[$i]=='0'){
-                    echo '<i class="media-icon fa-solid fa-file-word"></i>';
+                    echo '<i class="media-icon pad fa-solid fa-file-pdf"></i>';
                 }
                 if($mediaTypes[$i]=='1'){
-                    echo '<i class="media-icon fa-solid fa-file-image"></i>';
+                    echo '<i class="media-icon pad fa-solid fa-file-image"></i>';
                 }
                 if($mediaTypes[$i]=='2'){
-                    echo '<i class="media-icon fa-solid fa-file-video"></i>';
+                    echo '<i class="media-icon pad fa-solid fa-file-video"></i>';
                 }
                 if($mediaTypes[$i]=='3'){
-                    echo '<i class="media-icon fa-solid fa-file-audio"></i>';
+                    echo '<i class="media-icon pad fa-solid fa-file-audio"></i>';
                 }
 
             }
