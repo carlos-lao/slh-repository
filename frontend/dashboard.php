@@ -50,6 +50,10 @@ $mysqli->close();
    <!--  <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script> -->
     <script src="https://kit.fontawesome.com/10681d46e7.js" crossorigin="anonymous"></script>
 
+
+    <script>
+</script>
+
     <style>
 
         #repository-header{
@@ -64,6 +68,13 @@ $mysqli->close();
 
         .pad{
             padding: 0px 5px;
+        }
+
+        .center{
+            font-size: 20px;
+            margin-left:auto;
+            margin-right:auto;
+            width: 300px;
         }
     </style>
 
@@ -105,50 +116,49 @@ $mysqli->close();
 <div class="container">
     <div id="search" class="heading">
         <h2>Search Repository</h2>
-        <!-- fix this --> 
-        <form action="search.php" method="GET">
+        <form id="search-form" action="search.php" method="GET">
             <div class="row">
             <div class="mb-3 col">
                 <label for="title" class="form-label">Title</label>
-                <input type="title" class="form-control" id="title" aria-describedby="title">
+                <input type="title" class="form-control" id="title" name="title" aria-describedby="title">
             </div>
                 <div class="mb-3 col">
                     <label for="uploader" class="form-label">Uploader</label>
-                    <input type="email" class="form-control" id="uploader" aria-describedby="uploader">
+                    <input type="email" class="form-control" id="uploader" name="uploader" aria-describedby="uploader" placeholder="ttrojan@usc.edu">
                 </div>
                 <div class="mb-3 col">
                     <label for="content-tags" class="form-label">Content Tags</label>
-                    <textarea class="form-control" id="content-tags" aria-describedby="content-tags"></textarea>
+                    <textarea class="form-control" id="content-tags" name="tags" aria-describedby="content-tags"></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <label class="form-label">File Types</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-pdf" value="pdf">
+                        <input class="form-check-input" type="checkbox" id="file-pdf" name="media[]" value="0">
                         <label class="form-check-label" for="file-pdf">PDF <i class="media-icon fa-solid fa-file-pdf"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-image" value="image">
+                        <input class="form-check-input" type="checkbox" id="file-image" name="media[]" value="1">
                         <label class="form-check-label" for="file-image">Image <i class="media-icon fa-solid fa-file-image"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-video" value="video">
+                        <input class="form-check-input" type="checkbox" id="file-video" name="media[]" value="2">
                         <label class="form-check-label" for="file-video">Video <i class="media-icon fa-solid fa-file-video"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-audio" value="audio">
+                        <input class="form-check-input" type="checkbox" id="file-audio" name="media[]" value="3">
                         <label class="form-check-label" for="file-audio">Audio <i class="media-icon fa-solid fa-file-audio"></i></label>
                     </div>
                 </div>
 
                 <div class="mb-3 col input-group">
                         <span class="input-group-text">Date Range</span>
-                        <input type="date" aria-label="Start Range" class="form-control">
-                        <input type="date" aria-label="End Range" class="form-control">
+                        <input type="date" id="start" aria-label="Start Range" name="start" class="form-control">
+                        <input type="date" id="end" aria-label="End Range" name="end" class="form-control">
                 </div>
                 <div class="col">
-                    <button type="button" class="btn btn-primary" id="search-btn">Search</button>
+                    <button type="submit" class="btn btn-primary" id="search-btn">Search</button>
                 </div>
 
             </div>
@@ -157,127 +167,8 @@ $mysqli->close();
     </div>
 <hr>
 
-<!-- dashboard complete --> 
-    <div class="container">
-        <div class="row" id="repository-header">
-            <div class="col-1 lock-icon">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <div class="col">
-                Date
-            </div>
-            <div class="col">
-                Title
-            </div>
-            <div class="col">
-                Uploader
-            </div>
-            <div class="col">
-                Media Tags
-            </div>
-            <div class="col-4">
-                Content Tags
-            </div>
-        </div>
+<p class="center">Click search to view submissions</p>
 
-
-        <!-- PHP STARTS HERE -->
-        <?php while($row = $posts->fetch_assoc()):?>
-        
-        <a class="submission-link" href="viewSubmission.php?idPost=<?php echo $row['idPost'];?> ">
-
-        <div class="row submission" id="<?php echo $row['idPost'];?>">
-            <div class="col-1">
-                <?php 
-                if($row['locked'] == 0) {
-                    echo '<i class="fa-solid fa-lock"></i>';
-                } 
-                else {
-                    echo '<i class="fa-solid fa-unlock"></i>';
-
-                };?>
-            </div>
-
-            <div class="col">
-                <?php echo $row['dateCreated'];?>
-            </div>
-            
-            <div class="col">
-            <?php echo $row['title'];?>
-            </div>
-            
-            <div class="col">
-            <?php echo $row['email'];?>
-            </div>
-            
-            <div class="col">
-            <?php 
-            $mediaTypes = $row['mediaType'];
-            $length = strlen($mediaTypes);
-
-            for($i=0; $i<$length; $i++) {
-                if($mediaTypes[$i]=='0'){
-                    echo '<i class="media-icon pad fa-solid fa-file-pdf"></i>';
-                }
-                if($mediaTypes[$i]=='1'){
-                    echo '<i class="media-icon pad fa-solid fa-file-image"></i>';
-                }
-                if($mediaTypes[$i]=='2'){
-                    echo '<i class="media-icon pad fa-solid fa-file-video"></i>';
-                }
-                if($mediaTypes[$i]=='3'){
-                    echo '<i class="media-icon pad fa-solid fa-file-audio"></i>';
-                }
-
-            }
-            ?> 
-            </div>
-            <div class="col-4 tags">
-                <?php
-                if ( isset($row['tags']) ) {
-                    $json = json_decode($row['tags'], true);
-                    //var_dump($json['Tags']);
-                    for($i = 0; $i < count($json['tags']); $i++){
-                        echo '<span>';
-                        echo $json['tags'][$i];
-                        echo'</span>';
-                    }
-                }
-
-                ?>
-            </div>
-        </div>
-        </a>
-        <?php endwhile;?>
-        <!-- 
-            <div class="row submission" id="submission-id">
-            <div class="col-1">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <div class="col">
-                9/24/2022
-            </div>
-            <div class="col">
-                Title Placeholder
-            </div>
-            <div class="col">
-                ttrojan@usc.edu
-            </div>
-            <div class="col">
-                <i class="media-icon fa-solid fa-file-word"></i>
-            </div>
-            <div class="col-4 tags">
-                <span>Alcohol</span>
-                <span>Drugs</span>
-                <span>Los Angeles</span>
-                <span>Drunk</span>
-                <span>Over 21</span>
-                <span>Testing</span>
-            </div>
-        </div>
-        -->
-
-    </div>
 </div>
 
 
