@@ -87,3 +87,8 @@ body{
 .heading {
     margin: 20px 0px;
 }
+
+/* for images */
+.subTitle img{
+    width: 100px;
+}

@@ -119,17 +119,23 @@ $mysqli->close();
             </p>
         </div>
 
+        <!-- <?php
+            // $dirName= "picTest/";
+            // $imag= glob($dirName."*.jpg");
+            
+            // foreach($imag as $image) {
+            //     echo '<img src="'.$image.'" /><br />';
+            // }
+        ?> -->
+
         <?php 
+            $picarray  = ["picTest/usc1.jpg", "picTest/usc2.jpg", "picTest/usc3.jpg", "picTest/usc4.jpg"];
+
+            foreach($picarray  as $pic){?>
+              <img src= "<?php echo $pic; ?> " style= 'width:600px'><br>
+            <?php } ?>
         
-            if(mysqli_num_rows($row["pictureArray"]) > 0){
-                while($pos = $row["pictureArray"]->fetch_assoc()){
-                    $imageURL = $pos["file_name"];
-            ?>
-                <img src="<?php echo $imageURL; ?>" alt="" />
-            <?php }
-            }else{ ?>
-                <p>No image(s) found...</p>
-        <?php } ?> 
+        
 
     </div>
 </div>

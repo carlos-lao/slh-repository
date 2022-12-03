@@ -122,9 +122,11 @@ $mysqli->close();
             </p>
         </div>
 
-        <embed  src=<?php ECHO $row["content"]; ?>
-                width="100%" 
-                height="800"/>
+        <embed  
+            <?php $srcUrl= "testFiles/pdfTest.pdf"; ?>
+            src=<?php ECHO $srcUrl; ?>
+            width="100%" 
+            height="800"/>
     </div>
 </div>
 

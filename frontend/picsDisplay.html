@@ -1,40 +1,3 @@
-<?php
-
-$host= "303.itpwebdev.com";
-$user= "root";
-$password= "root";
-$db= "skawaguc_dvd_db";
-
-$mysqli= new mysqli($host, $user, $password, $db);
-
-if ($mysqli->connect_errno){
-	ECHO $mysqli->connect_errno;
-	exit();
-}
-
-$idPost= $_GET["idPost"];
-
-$sql= "SELECT * FROM Post
-WHERE idPost=$idPost ;";
-
-
-
-$results= $mysqli->query($sql);
-	if(!$results){
-		ECHO $mysqli->error;
-		exit();
-	}
-
-$row= $results->fetch_assoc();
-// 	var_dump($row);
-
-$mysqli->set_charset("utf8");
-
-
-$mysqli->close();
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,31 +64,40 @@ $mysqli->close();
 <!-- Content -->
 <div class="container">
     <div class="submissionDisplay">
-    <div class="subTitle">
-            <h1><i class="fa-solid fa-lock"></i><?php ECHO $row["title"]; ?></h1>
-            <h1><i class="fa-solid fa-file-word titleIcon"></i></h1>
+        <div class="subTitle">
+            <h1><i class="fa-solid fa-lock"></i> This is the Title for This Submission</h1>
+            <h1><i class="fa-solid fa-file-video titleIcon"></i></h1>
         </div>
-        <div><p>Submitted by: <?php ECHO $row["User_idUser"]; ?></p></div>
+        <div><p>Submitted by: ttrojan@usc.edu</p></div>
         <div class="subTags">
             <div class="col-4 tags">
-                <!-- figure out toags -->
                 <span>Alcohol</span><span>Drugs</span><span>Los Angeles</span><span>Drunk</span>
             </div>
             <span class="editSubButt">Edit Submission</span>
         </div>
         <div class="subDesc">
             <p>
-                <?php ECHO $row["description"]; ?>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+                 laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
+                 velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt 
+                 in culpa qui officia deserunt mollit anim id est laborum.
+                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+                 laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
+                 velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt 
+                 in culpa qui officia deserunt mollit anim id est laborum
+                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+                 laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
+                 velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt 
+                 in culpa qui officia deserunt mollit anim id est laborum
             </p>
         </div>
 
-        <audio controls>
-            <!-- <source src=<?php ECHO $row["content"]; ?> type="audio/mp3"> -->
-            <?php $srcUrl= "testFiles/audioTest.mp3"; ?>
-            <source src=<?php ECHO $srcUrl; ?> type="audio/mp3">
-          Your browser does not support the audio tag.
-        </audio> 
-
+        <div>
+            <img src="picTest/usc1.jpg">
+        </div>>
     </div>
 </div>
 
