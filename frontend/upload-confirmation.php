@@ -47,7 +47,7 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
     }
 
 	if ( isset($_POST['tags']) && !empty($_POST['tags']) ) {
-		$tags = null;
+		$tags = json_encode(['tags' => explode(',', $_POST['tags'])]);
 	} else {
 		$tags = null;
 	}
@@ -61,8 +61,6 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
 
 	$statement = $mysqli->prepare("INSERT INTO Post(idPost, User_idUser, title, locked, dateCreated, lastEdited, mediaType, tags, description) VALUES (?,?,?,?,?,?,?,?,?)");
 	$statement->bind_param("iisisssss", $pid, $uid, $_POST['title'], $unlocked, $today, $today, $mediaTags, $tags, $_POST['description']);
-
-	//echo "<hr>" . $statement . "<hr>";
 
 	$results = $statement->execute();
 	if ( !$results ) {

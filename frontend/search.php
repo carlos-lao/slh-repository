@@ -251,9 +251,9 @@ $mysqli->close();
                 if ( isset($row['tags']) ) {
                     $json = json_decode($row['tags'], true);
                     //var_dump($json['Tags']);
-                    for($i = 0; $i < count($json['Tags']); $i++){
+                    for($i = 0; $i < count($json['tags']); $i++){
                         echo '<span>';
-                        echo $json['Tags'][$i];
+                        echo $json['tags'][$i];
                         echo'</span>';
                     }
                 }
