@@ -71,10 +71,10 @@ $mysqli->close();
                     <a href="dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="manage-roles.php" class="nav-link">Manage Roles</a>
+                    <a href="manage-roles.php" class="nav-link active">Manage Roles</a>
                 </li>
                 <li class="nav-item">
-                    <a href="upload.php" class="nav-link active">Upload</a>
+                    <a href="upload.php" class="nav-link">Upload</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">

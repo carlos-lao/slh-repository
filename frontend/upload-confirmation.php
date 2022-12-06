@@ -69,7 +69,6 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
 	}
 
 	$statement->close();
-
 }
 
 ?>
@@ -166,7 +165,7 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
 		</div>
 		<div class="row mt-4 mb-4">
 			<div class="col-12">
-				<a href="upload.php" role="button" class="btn btn-lg btn-outline-dark">Return to Upload</a>
+				<a href="dashboard.php" role="button" class="btn btn-lg btn-outline-dark">Return to Dashboard</a>
 			</div>
 		</div>
 </div>

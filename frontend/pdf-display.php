@@ -1,11 +1,12 @@
 <?php
 
-$host= "303.itpwebdev.com";
-$user= "root";
-$password= "root";
-$db= "skawaguc_dvd_db";
+require 'config.php';
 
-$mysqli= new mysqli($host, $user, $password, $db);
+/*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+    header("Location: signin.php");
+}*/
+
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if ($mysqli->connect_errno){
 	ECHO $mysqli->connect_errno;

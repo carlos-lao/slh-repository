@@ -1,11 +1,12 @@
 <?php
 
-$host= "303.itpwebdev.com";
-$user= "root";
-$password= "root";
-$db= "skawaguc_dvd_db";
+require 'config.php';
 
-$mysqli= new mysqli($host, $user, $password, $db);
+/*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+    header("Location: signin.php");
+}*/
+
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if ($mysqli->connect_errno){
 	ECHO $mysqli->connect_errno;
@@ -119,12 +120,23 @@ $mysqli->close();
             </p>
         </div>
 
-        <audio controls>
-            <!-- <source src=<?php ECHO $row["content"]; ?> type="audio/mp3"> -->
-            <?php $srcUrl= "testFiles/audioTest.mp3"; ?>
-            <source src=<?php ECHO $srcUrl; ?> type="audio/mp3">
-          Your browser does not support the audio tag.
-        </audio> 
+        <!-- <?php
+            // $dirName= "picTest/";
+            // $imag= glob($dirName."*.jpg");
+            
+            // foreach($imag as $image) {
+            //     echo '<img src="'.$image.'" /><br />';
+            // }
+        ?> -->
+
+        <?php 
+            $picarray  = ["picTest/usc1.jpg", "picTest/usc2.jpg", "picTest/usc3.jpg", "picTest/usc4.jpg"];
+
+            foreach($picarray  as $pic){?>
+              <img src= "<?php echo $pic; ?> " style= 'width:600px'><br>
+            <?php } ?>
+        
+        
 
     </div>
 </div>
