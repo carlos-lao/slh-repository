@@ -20,21 +20,21 @@ JOIN User
 	on User.idUser = Post.User_idUser
 AND idPost = $idPost;";
 
-
+if (isset($_GET['lock'])) {
+    $mysqli->query("UPDATE Post SET locked = " . $_GET['lock'] . " WHERE idPost = " . $idPost);
+    echo '<script>window.location.href = "post-display.php?idPost=' . $idPost . '";</script>';
+}
 
 $results= $mysqli->query($sql);
-	if(!$results){
-		ECHO $mysqli->error;
-		exit();
-	}
+if(!$results){
+    ECHO $mysqli->error;
+    exit();
+}
 
 $row= $results->fetch_assoc();
 // 	var_dump($row);
 
 $mysqli->set_charset("utf8");
-
-
-$mysqli->close();
 
 ?>
 
@@ -63,10 +63,8 @@ $mysqli->close();
     <script src="https://kit.fontawesome.com/10681d46e7.js" crossorigin="anonymous"></script>
 
     <style>
-
         #repository-header{
             font-size:30px;
-
         }
     </style>
 
@@ -110,8 +108,28 @@ $mysqli->close();
     <div class="submissionDisplay">
         <div class="subTitle">
             <h1><?php ECHO $row["title"]; ?></h1>
+            <h1>
+                <?php 
+                    $mediaTypes = $row['mediaType'];
+                    $length = strlen($mediaTypes);
+                    for($i=0; $i<$length; $i++) {
+                        if($mediaTypes[$i]=='1'){
+                            echo '<i class="media-icon pad fa-solid fa-file-pdf"></i> ';
+                        }
+                        if($mediaTypes[$i]=='2'){
+                            echo '<i class="media-icon pad fa-solid fa-file-image"></i> ';
+                        }
+                        if($mediaTypes[$i]=='3'){
+                            echo '<i class="media-icon pad fa-solid fa-file-video"></i> ';
+                        }
+                        if($mediaTypes[$i]=='4'){
+                            echo '<i class="media-icon pad fa-solid fa-file-audio"></i> ';
+                        }
+                    }
+                ?> 
+            </h1>
         </div>
-        <div><p>Submitted by: <?php ECHO $row["name"]; ?></p></div>
+        <div><p><u>Submitted by:</u> <?php echo $row["name"] . " (<a href='mailto:" . $row['email'] . "'>"  . $row['email'] . "</a>)"; ?></p></div>
         <div class="subTags d-flex justify-content-space-between">
             <div class="tags container-fluid" style="padding-left: 0;">
                 <?php
@@ -126,17 +144,26 @@ $mysqli->close();
                     }
                 ?>
             </div>
-            <button 
-                class="btn btn-secondary<?php echo ($row['locked'] != 0) ? ' disabled' : ''; ?>" 
+            <div class="d-flex">
+                <a class="btn btn-light" style="margin-right: 5px; border: 2px solid gray; box-sizing: border-box;"
+                    href="post-display.php?idPost=<?php echo $idPost; ?>&lock=<?php echo ($row['locked'] != 0) ? '0' : '1'; ?>"
+                >
+                    <i class="fa-solid <?php echo ($row['locked'] != 0) ? 'fa-lock' : 'fa-unlock'; ?>"></i>
+                </a>
                 <?php 
-                    if ($row['locked'] != 0) {
-                        echo "data-toggle=\"tooltip\" data-placement=\"top\" title=\"This post has been locked and therefore cannot be edited.\"";
+                    if ($row['locked'] != 0) { 
+                        echo "<div data-toggle=\"tooltip\" data-placement=\"top\" title=\"This post has been locked and therefore cannot be edited.\">";
                     }; 
                 ?>
-            >
-                <i class="fa-solid <?php echo ($row['locked'] != 0) ? 'fa-lock' : 'fa-lock-open'; ?>" style="margin-right: 5px"></i> 
-                Edit Submission
-            </button>
+                    <a class="btn btn-secondary<?php echo ($row['locked'] != 0) ? ' disabled' : ''; ?>" 
+                        style="white-space: nowrap; text-align: center;"
+                        href="upload.php?edit=<?php echo $row['idPost']?>"
+                    > 
+                        Edit Submission
+                        <i class="bi bi-pencil-fill" style="margin-left: 5px"></i>
+                    </a>
+                <?php echo ($row['locked'] != 0) ? '</div>' : ''; ?>
+            </div>
         </div>
         <div class="subDesc">
             <p>
@@ -145,7 +172,7 @@ $mysqli->close();
         </div>
 
         <embed  
-            <?php $srcUrl= "prototypes/testFiles/pdfTest.pdf"; ?>
+            <?php $srcUrl= "../backend/storage/dummyFile.pdf"; ?>
             src=<?php ECHO $srcUrl; ?>
             width="100%" 
             height="800"/>
@@ -154,7 +181,13 @@ $mysqli->close();
 
 
 <!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 
 </body>

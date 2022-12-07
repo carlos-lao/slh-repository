@@ -21,6 +21,12 @@ tagDisplay.addEventListener('focus', () => { updateTagDisplay(tagInput.value.spl
 
 tagDisplay.addEventListener('blur', () => { updateTagDisplay(tagInput.value.split(','), tagInput.value.length === 0) })
 
+const setUpEditMode = () => {
+    if (tagInput.value.length !== 0) {
+        updateTagDisplay(tagInput.value.split(','), false);
+    }
+}
+
 // HELPER FUNCTIONS
 // replaces the contents of tagDisplay with tag bubbles from the given array
 // does not create a tag bubble for the last tag if leaveLast is true

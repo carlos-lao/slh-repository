@@ -112,7 +112,7 @@ $mysqli->close();
 <!-- Content -->
 <div class="container">
     <div id="add-users" class="heading">
-    <h1>Add Users</h1>
+    <h2>Add Users</h2>
     <form method="POST">
         <div class="row">
             <div class="col-3">
@@ -129,15 +129,10 @@ $mysqli->close();
             </div>
         </div>
     </form>
-    <?php if ( isset($error) && !empty($error) ) : ?>
-        <div class="text-danger">
-            <?php echo $error; ?>
-        </div>
-    <?php endif; ?>
     </div>
-    <div id="user-perms">
+    <div id="user-perms" class="mt-5">
         <!-- list of users -->
-        <h1>Advanced User Permissions</h1>
+        <h2>Advanced User Permissions</h2>
 
         <div class="row">
             <div class="col-4 d-flex align-items-center">
@@ -169,7 +164,8 @@ $mysqli->close();
                 } 
                 else if($row['accessLevel'] == 2) {
                     echo 'Administrator';
-                };?>
+                };
+            ?>
             </div>
             <div class="col-2 d-flex flex-row-reverse">
                 <a class="btn btn-danger" href="manage-roles.php?removePermissions=<?php echo $row['idUser']?>"><i class="bi bi-person-x-fill fa-lg"></i></a>

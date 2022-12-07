@@ -193,16 +193,16 @@ $mysqli->close();
 		while($row = $posts->fetch_assoc()):?>
 
         
-        <a class="submission-link" href="pdf-display.php?idPost=<?php echo $row['idPost'];?> ">
+        <a class="submission-link" href="post-display.php?idPost=<?php echo $row['idPost'];?> ">
 
         <div class="row submission" id="<?php echo $row['idPost'];?>">
             <div class="col-1">
                 <?php 
                 if($row['locked'] == 0) {
-                    echo '<i class="fa-solid fa-lock"></i>';
+                    echo '<i class="fa-solid fa-unlock fa-lg"></i>';
                 } 
                 else {
-                    echo '<i class="fa-solid fa-unlock"></i>';
+                    echo '<i class="fa-solid fa-lock fa-lg"></i>';
 
                 };?>
             </div>
@@ -225,16 +225,16 @@ $mysqli->close();
             $length = strlen($mediaTypes);
 
             for($i=0; $i<$length; $i++) {
-                if($mediaTypes[$i]=='0'){
+                if($mediaTypes[$i]=='1'){
                     echo '<i class="media-icon pad fa-solid fa-file-pdf"></i>';
                 }
-                if($mediaTypes[$i]=='1'){
+                if($mediaTypes[$i]=='2'){
                     echo '<i class="media-icon pad fa-solid fa-file-image"></i>';
                 }
-                if($mediaTypes[$i]=='2'){
+                if($mediaTypes[$i]=='3'){
                     echo '<i class="media-icon pad fa-solid fa-file-video"></i>';
                 }
-                if($mediaTypes[$i]=='3'){
+                if($mediaTypes[$i]=='4'){
                     echo '<i class="media-icon pad fa-solid fa-file-audio"></i>';
                 }
 

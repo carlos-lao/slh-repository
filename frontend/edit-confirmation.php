@@ -2,73 +2,74 @@
 
 require 'config.php';
 
-function randomNumber($length) {
-    $result = '';
-
-    for($i = 0; $i < $length; $i++) {
-        $result .= mt_rand(0, 9);
-    }
-
-    return $result;
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+if ( $mysqli->errno ) {
+    echo $mysqli->error;
+    exit();
 }
 
-if ( !isset($_POST['title']) || empty($_POST['title'])
-    || !isset($_POST['description']) || empty($_POST['description']) ) {
+if ( !isset($_GET['pid']) || empty($_GET['pid']) ) {
 	// Missing required fields.
-	$error = "Every post must have a title and description. Please make sure to fill out all required fields.";
-
+	$error = "We can't seem to figure out which post you edited. Try again later.";
 } else {
-	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-	if ( $mysqli->errno ) {
-		echo $mysqli->error;
-		exit();
-	}
+    $pid = $_GET['pid'];
 
-    $mediaTags = "";
+    if (isSet($_GET['delete'])) {
+        $results = $mysqli->query("SELECT * FROM Post WHERE idPost = " . $pid . ";");
+        $title = $results->fetch_assoc()['title'];
+        $mysqli->query("DELETE FROM Post WHERE idPost = " . $pid . ";");
+        $mysqli->close();
+    } else {
+        if ( !isset($_POST['title']) || empty($_POST['title'])
+            || !isset($_POST['description']) || empty($_POST['description']) ) {
+            // Missing required fields.
+            $error = "Every post must have a title and description. Please make sure to fill out all required fields.";
 
-	if ( isset($_POST['pdf']) && !empty($_POST['pdf']) ) {
-		$mediaTags .= $_POST['pdf'];
-	}
+        } else {
+            $mediaTags = "";
 
-    if ( isset($_POST['image']) && !empty($_POST['image']) ) {
-		$mediaTags .= $_POST['image'];
-	}
+            if ( isset($_POST['pdf']) && !empty($_POST['pdf']) ) {
+                $mediaTags .= $_POST['pdf'];
+            }
 
-    if ( isset($_POST['video']) && !empty($_POST['video']) ) {
-		$mediaTags .= $_POST['video'];
-	}
+            if ( isset($_POST['image']) && !empty($_POST['image']) ) {
+                $mediaTags .= $_POST['image'];
+            }
 
-    if ( isset($_POST['audio']) && !empty($_POST['audio']) ) {
-		$mediaTags .= $_POST['audio'];
-	}
+            if ( isset($_POST['video']) && !empty($_POST['video']) ) {
+                $mediaTags .= $_POST['video'];
+            }
 
-    if ( empty($mediaTags) ) {
-        $mediaTags = null;
+            if ( isset($_POST['audio']) && !empty($_POST['audio']) ) {
+                $mediaTags .= $_POST['audio'];
+            }
+
+            if ( empty($mediaTags) ) {
+                $mediaTags = null;
+            }
+
+            if ( isset($_POST['tags']) && !empty($_POST['tags']) ) {
+                $tags = json_encode(['tags' => explode(',', $_POST['tags'])]);
+            } else {
+                $tags = null;
+            }
+
+            $unlocked = 0;
+            $today = date("Y-m-d H:i:s");
+
+            $statement = $mysqli->prepare("UPDATE Post SET title = ?, description = ?, lastEdited = ?, mediaType = ?, tags = ?, content = ? WHERE idPost = ?");
+            $statement->bind_param("ssssssi", $_POST['title'], $_POST['description'], $today, $mediaTags, $tags, $_POST['files'], $pid);
+
+            $results = $statement->execute();
+            if ( !$results ) {
+                echo $mysqli->error;
+                exit();
+            }
+
+            $statement->close();
+        }
     }
-
-	if ( isset($_POST['tags']) && !empty($_POST['tags']) ) {
-		$tags = json_encode(['tags' => explode(',', $_POST['tags'])]);
-	} else {
-		$tags = null;
-	}
-
-    $pid = randomNumber(6);
-    $uid = 9375931;
-    $unlocked = 0;
-    $today = date("Y-m-d H:i:s");
-
-	$statement = $mysqli->prepare("INSERT INTO Post(idPost, User_idUser, title, locked, dateCreated, lastEdited, mediaType, tags, description, content) VALUES (?,?,?,?,?,?,?,?,?,?)");
-	$statement->bind_param("iisissssss", $pid, $uid, $_POST['title'], $unlocked, $today, $today, $mediaTags, $tags, $_POST['description'], $_POST['files']);
-
-	$results = $statement->execute();
-	if ( !$results ) {
-		echo $mysqli->error;
-		exit();
-	}
-
-	$statement->close();
 }
-
 ?>
 
 
@@ -151,10 +152,14 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
 				<div class="text-danger">
 					<?php echo $error; ?>
 				</div>
+            <?php elseif ( isset($_GET['delete']) ) : ?>
+                <div class="text-success">
+					<span class="font-italic"><?php echo $title; ?></span> was successfully deleted.
+                </div>
 			<?php else :?>
 				<div class="text-success">
-					<span class="font-italic"><?php echo $_POST['title']; ?></span> was successfully added.
-            </div>
+					<span class="font-italic"><?php echo $_POST['title']; ?></span> was successfully edited.
+                </div>
 			<?php endif; ?>
 
 
@@ -164,8 +169,8 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
                 <div class="col-12">
                     <?php if ( isset($error) && !empty($error) ) : ?>
                         <button class="btn btn-lg btn-outline-dark" onclick="history.back();">Try Again</button>
-                    <?php else :?>
-                        <a href="post-display.php?idPost=<?php echo $pid?>" role="button" class="btn btn-lg btn-outline-dark">View Submission</a>
+                    <?php elseif ( !isset($_GET['delete']) ) :?>
+                        <a href="post-display.php?idPost=<?php echo $pid?>" role="button" class="btn btn-lg btn-outline-dark">View Post</a>
                     <?php endif; ?>
                 </div>
                 <div class="col-12 mt-2">

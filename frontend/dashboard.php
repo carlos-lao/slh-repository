@@ -143,19 +143,19 @@ $mysqli->close();
                 <div class="col">
                     <label class="form-label">File Types</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-pdf" name="media[]" value="0">
+                        <input class="form-check-input" type="checkbox" id="file-pdf" name="media[]" value="1">
                         <label class="form-check-label" for="file-pdf">PDF <i class="media-icon fa-solid fa-file-pdf"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-image" name="media[]" value="1">
+                        <input class="form-check-input" type="checkbox" id="file-image" name="media[]" value="2">
                         <label class="form-check-label" for="file-image">Image <i class="media-icon fa-solid fa-file-image"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-video" name="media[]" value="2">
+                        <input class="form-check-input" type="checkbox" id="file-video" name="media[]" value="3">
                         <label class="form-check-label" for="file-video">Video <i class="media-icon fa-solid fa-file-video"></i></label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="file-audio" name="media[]" value="3">
+                        <input class="form-check-input" type="checkbox" id="file-audio" name="media[]" value="4">
                         <label class="form-check-label" for="file-audio">Audio <i class="media-icon fa-solid fa-file-audio"></i></label>
                     </div>
                 </div>

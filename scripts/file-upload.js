@@ -1,15 +1,34 @@
 const dropzone = document.getElementById('upload');
 const fileInput = document.getElementById('hidden-file-input');
+const fileBrowser = document.getElementById('file-browser');
 const fileIndicatorsContainer = document.getElementById('file-indicators-container');
-const files = [];
+let files = [];
 
-fileInput.addEventListener('change', () => {
-    for (let i = 0; i < fileInput.files.length; i++) {
-        const file = fileInput.files[i]
-        if (!hasDuplicateFile(files, file)) {
-            files.push(file)
+window.onload = () => {
+    if(fileInput.value.length !== 0) {
+        files = JSON.parse(fileInput.value);
+        console.log(files);
+        files.forEach((file) => {
             addFileIndicator(file, () => {
+                files.splice(files.indexOf(file), 1);
+                // updateFileInput(files);
+                if (files.length === 0) {
+                    fileIndicatorsContainer.hidden = true;
+                }
+            });
+        })
+    }
+}
+
+fileBrowser.addEventListener('change', () => {
+    for (let i = 0; i < fileBrowser.files.length; i++) {
+        const file = fileBrowser.files[i]
+        if (!files.includes(file.name)) {
+            files.push(file.name)
+            updateFileInput(files);
+            addFileIndicator(file.name, () => {
                 files.splice(files.indexOf(file.name), 1);
+                updateFileInput(files);
                 if (files.length === 0) {
                     fileIndicatorsContainer.hidden = true;
                 }
@@ -34,10 +53,12 @@ const dropHandler = (e) => {
                 const file = item.getAsFile();
                 console.log(`attempting to add ${file.name}...`);
 
-                if (!hasDuplicateFile(files, file)) {
-                    files.push(file)
-                    addFileIndicator(file, () => {
+                if (!files.includes(file.name)) {
+                    files.push(file.name);
+                    updateFileInput(files);
+                    addFileIndicator(file.name, () => {
                         files.splice(files.indexOf(file.name), 1);
+                        updateFileInput(files);
                         if (files.length === 0) {
                             fileIndicatorsContainer.hidden = true;
                         }
@@ -66,9 +87,10 @@ const dragLeaveHandler = () => {
 }
 
 const browseFiles = (e) => {
-    fileInput.click();
+    fileBrowser.click();
 }
 
+// this doesn't work LOL
 const uploadFiles = (e) => {
     console.log('hello')
 
@@ -84,7 +106,7 @@ const uploadFiles = (e) => {
         alert("Files uploaded successfully!");
     });    
 
-    xhttp.open('POST', 'upload-confirmation.php');
+    xhttp.open('POST', 'upload-files.php', true);
     xhttp.send(formData);
 }
 
@@ -92,7 +114,7 @@ const uploadFiles = (e) => {
 
 // creates a file indicator element for the provided file
 // option to add additional delete functionality with onDelete
-const addFileIndicator = (file, onDelete = () => {}) => {
+const addFileIndicator = (filename, onDelete = () => {}) => {
     // make container div
     const container = document.createElement('div');
     container.classList.add('file-indicator');
@@ -100,7 +122,7 @@ const addFileIndicator = (file, onDelete = () => {}) => {
     // create contents
     const text = document.createElement('p'); // filename text
     text.classList.add('filename-text');
-    text.textContent = file.name;
+    text.textContent = filename;
     const icon = document.createElement('i'); // delete button
     icon.classList.add('bi', 'bi-x-circle-fill', 'fa-lg', 'delete-btn');
     icon.addEventListener('click', () => { // add functionality to delete button
@@ -130,3 +152,13 @@ const hasDuplicateFile = (allFiles, testFile) => (
         file.type === testFile.type 
     )).length !== 0
 )
+
+const updateFileInput = (files) => {
+    // const dataTransfer = new DataTransfer();
+    // files.forEach((file) => {
+    //     dataTransfer.items.add(file);
+    // })
+
+    // fileInput.files = dataTransfer.files;
+    fileInput.value = JSON.stringify(files);
+}

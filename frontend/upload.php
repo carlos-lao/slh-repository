@@ -1,3 +1,36 @@
+<?php
+
+require 'config.php';
+
+/*if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+    header("Location: signin.php");
+}*/
+
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if ($mysqli->connect_errno){
+	ECHO $mysqli->connect_errno;
+	exit();
+}
+
+if (isset($_GET['edit'])) {
+    $idPost= $_GET["edit"];
+
+    $sql= "SELECT * FROM Post WHERE idPost = $idPost;";
+
+    $results= $mysqli->query($sql);
+    if(!$results){
+        ECHO $mysqli->error;
+        exit();
+    }
+
+    $row = $results->fetch_assoc();
+    $mysqli->set_charset("utf8");    
+}
+$mysqli->close();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,10 +75,10 @@
             margin-bottom: 0;
         }
         .delete-btn {
-            color: #dc3545;
+            color: #6c757d;
         }
         .delete-btn:hover {
-            color: #c82333;
+            color: #5c636a;
         }
         #tag-display {
             height: 100px;
@@ -91,9 +124,18 @@
     <!-- Content -->
     <div class="container">
         <h2 class="mt-4 mb-3">Upload Post</h2>
-        <form id="upload-form" action="upload-confirmation.php" method="POST" enctype="multipart/form-data">
+        <form id="upload-form" 
+            action="<?php echo isset($row) ? 'edit' : 'upload'?>-confirmation.php<?php echo isset($row) ? '?pid=' . $idPost : ''?>" 
+            method="POST" enctype="multipart/form-data"
+        >
             <!-- File Upload Area -->
-            <input type="file" name="files" id="hidden-file-input" multiple hidden>
+            <input type="file" id="file-browser" multiple hidden>
+            <input name="files" id="hidden-file-input" hidden
+            <?php
+                if (isset($row['content']) && !empty($row['content']) ) {
+                    echo "value='" . $row['content'] . "'";
+                };
+            ?>>
             <div 
                 class="d-flex flex-column justify-content-center align-items-center" id="upload"
                 ondrop="dropHandler(event);"
@@ -108,49 +150,85 @@
             </div>
             <!-- Title Entry -->
             <div class="form-group mb-3 mt-4">
-                <input name="title" class="form-control border-secondary" placeholder="Title">
+                <input name="title" class="form-control border-secondary" placeholder="Title" 
+                <?php
+                    if (isset($row['title']) && !empty($row['title']) ) {
+                        echo "value=\"" . $row['title'] . "\"";
+                    };
+                ?>>
             </div>
             <!-- Description Entry -->
             <div class="form-group my-3">
-                <textarea name="description" class="form-control border-secondary" rows="5" placeholder="Description"></textarea>
+                <textarea name="description" class="form-control border-secondary" rows="5" placeholder="Description"><?php echo (isset($row['description']) && !empty($row['description']) ) ? trim($row['description']) : ''; ?></textarea>
             </div>
             <div class="row mb-3">
                 <!-- Tag Entry -->
                 <div class="form-group col-sm mb-3">
                     <label for="tags">Content Tags</label>
-                    <textarea name="tags" id="tag-input" hidden></textarea>
-                    <div class="form-control border-secondary tags" id="tag-display" contenteditable
-                        placeholder="Separate individual tags using commas"
-                    ></div>
+                    <textarea name="tags" id="tag-input" hidden><?php echo (isset($row['tags']) && !empty($row['tags']) ) ? implode(',', json_decode($row['tags'], true)['tags']) : ''; ?></textarea>
+                    <div class="form-control border-secondary tags" id="tag-display" contenteditable placeholder="Separate individual tags using commas">
+                        <?php
+                            if (isset($row['tags']) && !empty($row['tags']) ) {
+                                $tags = json_decode($row['tags'], true)['tags'];
+                                for ($i = 0; $i < count($tags); $i++) {
+                                    echo '<span>' . $tags[$i] . '</span><b style="opacity: 0">,</b>';
+                                }
+                            };
+                        ?>
+                    </div>
                 </div>
                 <!-- Media Tag Entry -->
                 <div class="form-group col-sm">
                     <label>Media Tags</label>
                     <div class="border border-secondary rounded p-2">
                     <div class="form-check form-check-inline">
-                            <input name="pdf" class="form-check-input" type="checkbox" id="pdfCheckbox" value="0">
+                            <input name="pdf" class="form-check-input" type="checkbox" id="pdfCheckbox" value="1"
+                                <?php
+                                    if (isset($row['mediaType']) && !empty($row['mediaType']) && str_contains($row['mediaType'], '1')) {
+                                        echo "checked";
+                                    };
+                                ?>
+                            >
                             <label class="form-check-label" for="pdfCheckbox">
                                 PDF
                                 <i class="media-icon fa-solid fa-file-pdf"></i>
                             </label>
                         </div>    
                     <div class="form-check form-check-inline">
-                            <input name="image" class="form-check-input" type="checkbox" id="imageCheckbox" value="1">
+                            <input name="image" class="form-check-input" type="checkbox" id="imageCheckbox" value="2"
+                                <?php
+                                    if (isset($row['mediaType']) && !empty($row['mediaType']) && str_contains($row['mediaType'], '2')) {
+                                        echo "checked";
+                                    };
+                                ?>
+                            >
                             <label class="form-check-label" for="imageCheckbox">
                                 Image
                                 <i class="media-icon fa-solid fa-file-image"></i>
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input name="video" class="form-check-input" type="checkbox" id="videoCheckbox" value="2">
-                            <label class="form-check-label" for="videoCheckbox">
+                            <input name="video" class="form-check-input" type="checkbox" id="videoCheckbox" value="3"
+                                <?php
+                                    if (isset($row['mediaType']) && !empty($row['mediaType']) && str_contains($row['mediaType'], '3')) {
+                                        echo "checked";
+                                    };
+                                ?>
+                            >
+                            <label class="form-check-label" for="videoCheckbox" >
                                 Video
                                 <i class="media-icon fa-solid fa-file-video"></i>
                             </label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input name="audio" class="form-check-input" type="checkbox" id="audioCheckbox" value="3">
+                            <input name="audio" class="form-check-input" type="checkbox" id="audioCheckbox" value="4"
+                                <?php
+                                    if (isset($row['mediaType']) && !empty($row['mediaType']) && str_contains($row['mediaType'], '4')) {
+                                        echo "checked";
+                                    };
+                                ?>
+                            >
                             <label class="form-check-label" for="audioCheckbox">
                                 Audio
                                 <i class="media-icon fa-solid fa-file-audio"></i>
@@ -161,6 +239,11 @@
             </div>
             <div class="d-flex flex-row-reverse">
                 <button type="submit" class="btn btn-lg btn-outline-dark">Submit</button>
+                <?php
+                    if (isset($row)) {
+                        echo '<a class="btn btn-lg btn-outline-danger" style="margin-right: 10px" href="edit-confirmation.php?pid=' . $idPost . '&delete=1">Delete</a>';
+                    };
+                ?>
             </div>
         </form>
     </div>
