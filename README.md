@@ -1,6 +1,6 @@
 # slh-repository
 #### CSCI 401 Group 10 Project
-*** Group Members: ***
+***Group Members:***
 - Carlos Lao
 - Desiree Khoo
 - Jaylen Jackson
@@ -8,12 +8,12 @@
 - Sophia Kawaguchi
 
 ## Table of Contents
-1. [Running the Software](#Running the Software)
-2. [Operating Instructions](#Operating Instructions)
-3. [Database Guide](#Database Guide)
-  1. [User Attributes](#User Attributes)
-  2. [Post Attributes](#Post Attributes)
-4. [Support](#Support)
+1. [Running the Software](#running-the-software)
+2. [Operating Instructions](#operating-instructions)
+3. [Database Guide](#database-guide)
+  1. [User Attributes](#user-attributes)
+  2. [Post Attributes](#post-attributes)
+4. [Support](#support)
 
 ## Running the Software
 
@@ -61,10 +61,10 @@ Within the dashboard, users have the ability to choose to view information, uplo
 - 3 = video
 - 4 = audio
 
-***Sample `tags` JSON Attribute***
+***Sample `tags` JSON Attribute*** <br>
 `{"tags": ["Under 21", "Testing", "Los Angeles"]}`
 
-***Sample `content` JSON Attribute***
+***Sample `content` JSON Attribute*** <br>
 `["post1.pdf", "filename.pdf"]`
 
 ## Support
