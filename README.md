@@ -11,8 +11,8 @@
 1. [Running the Software](#running-the-software)
 2. [Operating Instructions](#operating-instructions)
 3. [Database Guide](#database-guide)
-  1. [User Attributes](#user-attributes)
-  2. [Post Attributes](#post-attributes)
+  3.1. [User Attributes](#user-attributes)
+  3.2. [Post Attributes](#post-attributes)
 4. [Support](#support)
 
 ## Running the Software
