@@ -13,8 +13,30 @@ if( $mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT * FROM user WHERE idUser = 1 OR idUser = 2";
+if (isset($_GET['removePermissions'])) {
+    $statement = $mysqli->prepare("UPDATE User SET accessLevel = 0 WHERE idUser = ?");
+    $statement->bind_param("i", $_GET['removePermissions']);
+    $results = $statement->execute();
+    if ( !$results ) {
+		echo $mysqli->error;
+		exit();
+	}
+    $statement->close();
+    echo '<script>window.location.href = "manage-roles.php";</script>';
+}
 
+if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['accessLevel']) && !empty($_POST['accessLevel'])) {
+    $statement = $mysqli->prepare("UPDATE User SET accessLevel = ? WHERE email = ?");
+    $statement->bind_param("is", $_POST['accessLevel'], $_POST['email']);
+    $results = $statement->execute();
+    if ( !$results ) {
+		echo $mysqli->error;
+		exit();
+	}
+    $statement->close();
+}
+
+$sql = "SELECT * FROM User WHERE accessLevel = 1 OR accessLevel = 2 ORDER BY name ASC";
 
 $user = $mysqli->query($sql);
 if (!$user) {
@@ -43,6 +65,7 @@ $mysqli->close();
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
     <!-- Additional Scripts -->
     <script src="https://kit.fontawesome.com/10681d46e7.js" crossorigin="anonymous"></script>
@@ -90,50 +113,66 @@ $mysqli->close();
 <div class="container">
     <div id="add-users" class="heading">
     <h1>Add Users</h1>
-    <form>
+    <form method="POST">
         <div class="row">
             <div class="col-3">
-                <input type="email" class="form-control" placeholder="ttrojan@usc.edu">
+                <input name="email" type="email" class="form-control" placeholder="ttrojan@usc.edu">
             </div>
             <div class="col-3">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>--Select Permissions--</option>
+                <select class="form-select" aria-label="Default select example" name="accessLevel">
                     <option value="1">Moderator</option>
                     <option value="2">Administrator</option>
                 </select>
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-primary">Invite</button>
+                <button type="submit" class="btn btn-primary">Update Permissions</a>
             </div>
         </div>
     </form>
+    <?php if ( isset($error) && !empty($error) ) : ?>
+        <div class="text-danger">
+            <?php echo $error; ?>
+        </div>
+    <?php endif; ?>
     </div>
     <div id="user-perms">
         <!-- list of users -->
         <h1>Advanced User Permissions</h1>
+
+        <div class="row">
+            <div class="col-4 d-flex align-items-center">
+                <h5>User Name</h5>
+            </div>
+            <div class="col-3 d-flex align-items-center">
+                <h5>Email</h5>
+            </div>
+            <div class="col-3 d-flex align-items-center">
+                <h5>Role</h5>
+            </div>
+            <div class="col-2 d-flex flex-row-center">
+                <h5>Remove Permissions</h5>
+            </div>
+        </div>
         <?php while($row = $user->fetch_assoc()):?>
         
         <div class="row submission" id="user-<?php echo $row['idUser'];?>">
-        <div class="col-3">
+        <div class="col-4 d-flex align-items-center">
             <?php echo $row['name'];?>
             </div>
-            <div class="col-3">
+            <div class="col-3 d-flex align-items-center">
             <?php echo $row['email'];?>
             </div>
-            <div class="col-3">
+            <div class="col-3 d-flex align-items-center">
             <?php 
                 if($row['accessLevel'] == 1) {
                     echo 'Moderator';
                 } 
                 else if($row['accessLevel'] == 2) {
                     echo 'Administrator';
-
                 };?>
             </div>
-            <div class="col-3">
-                <a href="">
-                    X 
-                </a>
+            <div class="col-2 d-flex flex-row-reverse">
+                <a class="btn btn-danger" href="manage-roles.php?removePermissions=<?php echo $row['idUser']?>"><i class="bi bi-person-x-fill fa-lg"></i></a>
             </div>
         </div>
         <?php endwhile;?>

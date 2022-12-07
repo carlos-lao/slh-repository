@@ -52,8 +52,6 @@ if ( !isset($_POST['title']) || empty($_POST['title'])
 		$tags = null;
 	}
 
-    echo $mediaTags;
-
     $pid = randomNumber(6);
     $uid = 2837508;
     $unlocked = 0;

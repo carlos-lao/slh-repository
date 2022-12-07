@@ -84,13 +84,13 @@ $mysqli->close();
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ">
                 <li class="nav-item">
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="manage-roles.html" class="nav-link">Manage Roles</a>
+                    <a href="manage-roles.php" class="nav-link">Manage Roles</a>
                 </li>
                 <li class="nav-item">
-                    <a href="upload.html" class="nav-link active">Upload</a>
+                    <a href="upload.php" class="nav-link">Upload</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -107,13 +107,43 @@ $mysqli->close();
     <div class="submissionDisplay">
         <div class="subTitle">
             <h1><i class="fa-solid fa-lock"></i><?php ECHO $row["title"]; ?></h1>
-            <h1><i class="fa-solid fa-file-word titleIcon"></i></h1>
+            <h1>
+                <?php 
+                $mediaTypes = $row['mediaType'];
+                $length = strlen($mediaTypes);
+
+                for($i=0; $i<$length; $i++) {
+                    if($mediaTypes[$i]=='0'){
+                        echo '<i class="media-icon pad fa-solid fa-file-pdf"></i> ';
+                    }
+                    if($mediaTypes[$i]=='1'){
+                        echo '<i class="media-icon pad fa-solid fa-file-image"></i> ';
+                    }
+                    if($mediaTypes[$i]=='2'){
+                        echo '<i class="media-icon pad fa-solid fa-file-video"></i> ';
+                    }
+                    if($mediaTypes[$i]=='3'){
+                        echo '<i class="media-icon pad fa-solid fa-file-audio"></i> ';
+                    }
+
+                }
+                ?> 
+            </h1>
         </div>
         <div><p>Submitted by: <?php ECHO $row["User_idUser"]; ?></p></div>
         <div class="subTags">
             <div class="col-4 tags">
-                <!-- figure out toags -->
-                <span>Alcohol</span><span>Drugs</span><span>Los Angeles</span><span>Drunk</span>
+                <?php
+                    if ( isset($row['tags']) ) {
+                        $json = json_decode($row['tags'], true);
+                        //var_dump($json['Tags']);
+                        for($i = 0; $i < count($json['tags']); $i++){
+                            echo '<span>';
+                            echo $json['tags'][$i];
+                            echo'</span>';
+                        }
+                    }
+                ?>
             </div>
             <span class="editSubButt">Edit Submission</span>
         </div>
@@ -124,7 +154,7 @@ $mysqli->close();
         </div>
 
         <embed  
-            <?php $srcUrl= "testFiles/pdfTest.pdf"; ?>
+            <?php $srcUrl= "prototypes/testFiles/pdfTest.pdf"; ?>
             src=<?php ECHO $srcUrl; ?>
             width="100%" 
             height="800"/>

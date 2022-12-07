@@ -27,9 +27,6 @@ if( isset($_GET["uploader"]) && !empty($_GET["uploader"])) {
 	$sql = $sql . " AND User.email = '" . $_GET["uploader"] ."'";
 }
 
-
-
-
 if( isset($_GET["media"]) && !empty($_GET["media"])) {
 	$mediaTypeList = "";
 	foreach($_GET["media"] as $mediaType){
@@ -47,15 +44,13 @@ if( isset($_GET["end"]) && !empty($_GET["end"])) {
 	$sql = $sql . " AND dateCreated <= '" . $_GET["end"]. "'";
 }
 
-// fix this json search
-/*
 if( isset($_GET["tags"]) && !empty($_GET["tags"])) {
-	$sql = $sql . " AND tags = " . $_GET["tags"];
-}*/
+    foreach(explode(',', $_GET['tags']) as $tag){
+		$sql = $sql . " AND tags LIKE '%" . $tag . "%'";
+	}
+}
 
-$sql = $sql . ";";
-
-//echo $sql;
+$sql = $sql . " ORDER BY dateCreated DESC;";
 
 
 $posts = $mysqli->query($sql);
@@ -198,7 +193,7 @@ $mysqli->close();
 		while($row = $posts->fetch_assoc()):?>
 
         
-        <a class="submission-link" href="viewSubmission.php?idPost=<?php echo $row['idPost'];?> ">
+        <a class="submission-link" href="pdf-display.php?idPost=<?php echo $row['idPost'];?> ">
 
         <div class="row submission" id="<?php echo $row['idPost'];?>">
             <div class="col-1">

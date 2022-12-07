@@ -76,6 +76,11 @@ $mysqli->close();
             margin-right:auto;
             width: 300px;
         }
+
+        #tag-display:empty:before {
+            content: attr(placeholder);
+            color: #777;
+        }
     </style>
 
 
@@ -127,8 +132,11 @@ $mysqli->close();
                     <input type="email" class="form-control" id="uploader" name="uploader" aria-describedby="uploader" placeholder="ttrojan@usc.edu">
                 </div>
                 <div class="mb-3 col">
-                    <label for="content-tags" class="form-label">Content Tags</label>
-                    <textarea class="form-control" id="content-tags" name="tags" aria-describedby="content-tags"></textarea>
+                    <label for="tags" class="form-label">Content Tags</label>
+                    <textarea name="tags" id="tag-input" hidden></textarea>
+                    <div class="form-control tags" id="tag-display" contenteditable
+                        placeholder="Separate individual tags using commas"
+                    ></div>
                 </div>
             </div>
             <div class="row">
@@ -171,7 +179,7 @@ $mysqli->close();
 
 </div>
 
-
+<script src="../scripts/tag-entry.js"></script>
 <!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
