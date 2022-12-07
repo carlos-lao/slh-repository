@@ -15,21 +15,37 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
     <!-- Additional Scripts -->
     <script src="https://kit.fontawesome.com/10681d46e7.js" crossorigin="anonymous"></script>
 
 	<style>
         #upload {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 30vh;
-            border: 2pt dashed lightGray;
+            border: 2pt dashed #e9ecef;
             border-radius: 0.375rem;
         }
         .hover {
-            background-color: azure;
+            background-color: lightyellow;
+        }
+        .file-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        .filename-text {
+            margin-bottom: 0;
+        }
+        .delete-btn {
+            color: #dc3545;
+        }
+        .delete-btn:hover {
+            color: #c82333;
         }
         #tag-display {
             height: 100px;
@@ -75,22 +91,31 @@
     <!-- Content -->
     <div class="container">
         <h2 class="mt-4 mb-3">Upload Post</h2>
-        <div 
-            class="mb-3 p-5" id="upload"
-            ondrop="dropHandler(event);"
-            ondragover="dragOverHandler(event);"
-            ondragleave="dragLeaveHandler(event);"
-        >
-            <p style="color: lightGray; font-size: 20pt">Drag Files Here</p>
-        </div>
-        <form action="upload-confirmation.php" method="POST">
-            <div class="form-group mb-3">
+        <form id="upload-form" action="upload-confirmation.php" method="POST" enctype="multipart/form-data">
+            <!-- File Upload Area -->
+            <input type="file" name="files" id="hidden-file-input" multiple hidden>
+            <div 
+                class="d-flex flex-column justify-content-center align-items-center" id="upload"
+                ondrop="dropHandler(event);"
+                ondragover="dragOverHandler(event);"
+                ondragleave="dragLeaveHandler(event);"
+            >
+                <p style="font-size: 20pt" class="m-0 text-center">Drag files in to upload</p>
+                <p style="font-size: 15pt" class="m-0 text-center">or</p>
+                <button type="button" class="btn btn-secondary" onclick="browseFiles(event);">Browse files</button>
+            </div>
+            <div id="file-indicators-container" class="mt-2" hidden>
+            </div>
+            <!-- Title Entry -->
+            <div class="form-group mb-3 mt-4">
                 <input name="title" class="form-control border-secondary" placeholder="Title">
             </div>
+            <!-- Description Entry -->
             <div class="form-group my-3">
                 <textarea name="description" class="form-control border-secondary" rows="5" placeholder="Description"></textarea>
             </div>
             <div class="row mb-3">
+                <!-- Tag Entry -->
                 <div class="form-group col-sm mb-3">
                     <label for="tags">Content Tags</label>
                     <textarea name="tags" id="tag-input" hidden></textarea>
@@ -98,6 +123,7 @@
                         placeholder="Separate individual tags using commas"
                     ></div>
                 </div>
+                <!-- Media Tag Entry -->
                 <div class="form-group col-sm">
                     <label>Media Tags</label>
                     <div class="border border-secondary rounded p-2">
