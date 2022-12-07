@@ -129,7 +129,7 @@ $mysqli->set_charset("utf8");
                 ?> 
             </h1>
         </div>
-        <div><p><u>Submitted by:</u> <?php echo $row["name"] . " (<a href='mailto:" . $row['email'] . "'>"  . $row['email'] . "</a>)"; ?></p></div>
+        <div><p><b>Submitted by:</b> <?php echo $row["name"] . " (<a href='mailto:" . $row['email'] . "'>"  . $row['email'] . "</a>)"; ?></p></div>
         <div class="subTags d-flex justify-content-space-between">
             <div class="tags container-fluid" style="padding-left: 0;">
                 <?php
